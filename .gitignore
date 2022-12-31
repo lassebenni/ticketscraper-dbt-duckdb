@@ -1,8 +1,10 @@
-.venv
+*.db
+*.db.wal
+data/
+.vscode
+dbt_packages
 logs
 target
-.vscode
-*.csv
-*.parquet
+.venv
 *.json
-dbt_packages
+*.parquet
