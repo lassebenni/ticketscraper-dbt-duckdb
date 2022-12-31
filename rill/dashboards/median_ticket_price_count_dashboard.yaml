@@ -1,0 +1,25 @@
+# Visit https://docs.rilldata.com/references/project-files to learn more about Rill project files.
+
+display_name: "median_ticket_price_count_dashboard"
+model: "median_ticket_price_count"
+timeseries: "max(updated)"
+measures:
+  - label: Total records
+    expression: count(*)
+    description: Total number of records present
+    format_preset: humanize
+  - label: "Count median prices"
+    expression: "max(prices_count)"
+    description: ""
+    format_preset: humanize
+  - label: "Median price"
+    expression: "max(median_price)"
+    description: ""
+    format_preset: humanize
+dimensions:
+  - label: Event_name
+    property: event_name
+    description: ""
+  - label: Entrance_title
+    property: entrance_title
+    description: ""

@@ -16,6 +16,15 @@ measures:
     expression: median(price)
     description: Median price
     format_preset: humanize
+  - label: Mode price
+    expression: mode(price)
+    format_preset: humanize
+  - label: Standard Deviation Sample
+    expression: stddev_samp(price)
+    format_preset: humanize
+  - label: Standard Deviation Population
+    expression: stddev_pop(price)
+    format_preset: humanize
   - label: Max price
     expression: max(price)
     format_preset: humanize
