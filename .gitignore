@@ -3,3 +3,6 @@ logs
 target
 .vscode
 *.csv
+*.parquet
+*.json
+dbt_packages
