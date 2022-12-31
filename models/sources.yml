@@ -1,0 +1,8 @@
+ version: 2
+
+sources:
+  - name: parquet
+    meta:
+      external_location: "sold.parquet"
+    tables:
+      - name: sold
