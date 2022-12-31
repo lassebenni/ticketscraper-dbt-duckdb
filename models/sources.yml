@@ -3,6 +3,6 @@
 sources:
   - name: parquet
     meta:
-      external_location: "sold.parquet"
+      external_location: "tickets_sold.parquet"
     tables:
       - name: sold
