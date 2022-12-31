@@ -1,0 +1,9 @@
+ticketscraper_dbt_duckdb:
+  outputs:
+    dev:
+      type: duckdb
+      path: "dbt.duckdb"
+    extensions:
+      - httpfs
+      - parquet
+  target: dev
