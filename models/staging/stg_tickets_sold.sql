@@ -1,4 +1,5 @@
 {{ config(materialized="incremental", unique_key="id") }}
+{{ config(materialized='external', format='parquet') }}
 
 with
     source as (select * from {{ source("parquet", "sold") }}),
@@ -6,7 +7,7 @@ with
     renamed as (
 
         select
-            updated,
+            strptime(updated, '%Y-%m-%d %H:%M:%S.%f') as updated,
             id,
             description,
             event_name,

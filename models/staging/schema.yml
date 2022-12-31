@@ -1,21 +1,58 @@
 
-# version: 2
+version: 2
 
-# models:
-#   - name: my_first_dbt_model
-#     description: "A starter dbt model"
-#     columns:
-#       - name: id
-#         description: "The primary key for this table"
-#         tests:
-#           - unique
-#           - not_null
+models:
+  - name: stg_tickets_sold
+    description: ""
+    columns:
+      - name: updated
+        description: ""
+        data_type: timestamp
 
-#   - name: my_second_dbt_model
-#     description: "A starter dbt model"
-#     columns:
-#       - name: id
-#         description: "The primary key for this table"
-#         tests:
-#           - unique
-#           - not_null
+      - name: id
+        description: ""
+
+      - name: description
+        description: ""
+
+      - name: event_name
+        description: ""
+
+      - name: event_start_date
+        description: ""
+
+      - name: event_end_date
+        description: ""
+
+      - name: amount_of_tickets
+        description: ""
+
+      - name: entrance_title
+        description: ""
+
+      - name: entrance_id
+        description: ""
+
+      - name: original_price
+        description: ""
+
+      - name: price
+        description: ""
+
+      - name: location
+        description: ""
+
+      - name: city
+        description: ""
+
+      - name: url
+        description: ""
+
+      - name: status
+        description: ""
+
+      - name: seller_name
+        description: ""
+
+      - name: seller_id
+        description: ""
