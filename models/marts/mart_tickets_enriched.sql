@@ -1,4 +1,5 @@
 {{ config(materialized="table") }}
+{{ config(materialized='external', format='parquet') }}
 
 
 with
