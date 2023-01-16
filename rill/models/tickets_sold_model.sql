@@ -1,1 +1,1 @@
-select * from tickets_sold
+select * from tickets_sold order by updated desc
