@@ -2,7 +2,7 @@ ticketscraper_dbt_duckdb:
   outputs:
     dev:
       type: duckdb
-      path: "dbt.duckdb"
+      path: "duck.db"
     extensions:
       - httpfs
       - parquet

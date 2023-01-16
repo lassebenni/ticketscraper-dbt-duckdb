@@ -1,0 +1,24 @@
+# Visit https://docs.rilldata.com/references/project-files to learn more about Rill project files.
+
+display_name: "tickets_sold_cheaper_dashboard_1"
+model: "tickets_sold_cheaper"
+timeseries: "max_date"
+measures:
+  - label: Total records
+    expression: count(*)
+    description: Total number of records present
+    format_preset: humanize
+  - label: "Average profit"
+    expression: "sum(price-original_price)"
+    description: ""
+    format_preset: humanize
+dimensions:
+  - label: Event_name
+    property: event_name
+    description: ""
+  - label: Entrance_title
+    property: entrance_title
+    description: ""
+  - label: Start_date
+    property: start_date
+    description: ""
