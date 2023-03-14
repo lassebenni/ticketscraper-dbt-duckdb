@@ -1,8 +1,8 @@
 name: "DBT Run"
 on:
   push:
-  # schedule:
-    # - cron: "16 9 * * *" # every day at 9:16 am
+  schedule:
+    - cron: "0 12 * * *" # every day at 12:00 pm
 
 jobs:
   dbt:
@@ -26,8 +26,11 @@ jobs:
       - name: dbt deps
         run: poetry run dbt deps
 
-      - name: Download the dbt.duckdb from S3
-        run: poetry run python scripts/load_s3_files.py download
+      - name: Download the dbt.duckdb from S3 and store MD5 hash as a variable
+        id: download_and_get_md5
+        run: |
+          original_md5=$(poetry run python scripts/load_s3_files.py download)
+          echo "::set-output name=md5::$original_md5"
 
       - name: dbt build
         run: poetry run dbt build --profiles-dir .
@@ -37,4 +40,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub sets this for you
 
       - name: Upload the dbt.duckdb to S3
-        run: poetry run python scripts/load_s3_files.py upload
+        run: poetry run python scripts/load_s3_files.py upload "${{ steps.download_and_get_md5.outputs.md5 }}"
