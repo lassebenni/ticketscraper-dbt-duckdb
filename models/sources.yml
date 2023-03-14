@@ -1,8 +1,8 @@
- version: 2
+version: 2
 
 sources:
   - name: parquet
     meta:
-      external_location: "tickets_sold.parquet"
+      external_location: "s3://lbenninga-projects/ticketswap/sold/*/*.parquet"
     tables:
       - name: sold

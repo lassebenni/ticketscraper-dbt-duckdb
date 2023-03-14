@@ -9,3 +9,15 @@ target
 *.json
 *.parquet
 *.csv
+.env
+
+# Rill
+*.db
+*.db.wal
+data/
+
+# Rill
+*.db
+*.db.wal
+data/
+dbt.duckdb
