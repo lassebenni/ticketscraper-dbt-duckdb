@@ -1,5 +1,5 @@
 {{ config(materialized="table") }}
-{{ config(materialized='external', format='parquet', location="output/mart_tickets_sold_stats.parquet") }}
+{{ config(materialized='external', format='parquet', location="s3://lbenninga-projects/ticketswap/dbt/mart_tickets_sold_stats.parquet") }}
 
 with
     tickets_sold as (select * from {{ ref("stg_tickets_sold") }}),
