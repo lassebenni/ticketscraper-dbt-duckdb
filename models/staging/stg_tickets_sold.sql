@@ -1,5 +1,4 @@
 {{ config(materialized="incremental", unique_key="id") }}
-{{ config(materialized='external', location="output/tickets_sold.parquet") }}
 
 with
 source as (select * from {{ source("parquet", "sold") }}

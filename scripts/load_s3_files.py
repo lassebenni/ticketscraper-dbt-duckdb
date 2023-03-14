@@ -3,7 +3,7 @@ import s3fs
 
 file_name = "dbt.duckdb"
 bucket_name = "lbenninga-projects"
-path = f"ticketswap/{file_name}"
+path = f"ticketswap/dbt/{file_name}"
 
 
 def download_file(bucket_name, s3_source_path, local_path):
