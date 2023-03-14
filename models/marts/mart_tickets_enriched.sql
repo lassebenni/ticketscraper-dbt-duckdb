@@ -1,5 +1,5 @@
 {{ config(materialized="table") }}
-{{ config(materialized='external', format='parquet') }}
+{{ config(materialized='external', format='parquet', location="output/mart_tickets_enriched.parquet") }}
 
 
 with
