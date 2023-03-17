@@ -1,1 +1,0 @@
-select * from tickets_sold order by updated desc
