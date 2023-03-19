@@ -28,12 +28,9 @@ grouped_scraped_day_event_startdate_entrance as (
 
     round(sum(price)) as sum_price,
     sum(amount_of_tickets) as sum_tickets,
-    -- round(avg(original_price)) as avg_original_price_per_listing,
-    -- round(avg(price)) as avg_price_per_listing,
     round(sum(price) / sum(amount_of_tickets)) as avg_price_per_ticket,
     round(sum(original_price) / sum(amount_of_tickets)) as avg_original_price_per_ticket,
     round(sum(price) / sum(amount_of_tickets)) - round(sum(original_price) / sum(amount_of_tickets)) as avg_profit_per_ticket
-
 
   from tickets
   group by 1, 2, 3, 4
@@ -46,12 +43,7 @@ grouped_event_startdate_entrance as (
     event_start_date,
     entrance_title,
 
-    count(distinct scraped_day) AS scraped_days,
-    round(sum(price)) as sum_price,
-    sum(amount_of_tickets) as sum_tickets,
-    round(sum(price) / sum(amount_of_tickets)) as avg_price_per_ticket,
-    round(sum(original_price) / sum(amount_of_tickets)) as avg_original_price_per_ticket,
-    round(sum(price) / sum(amount_of_tickets)) - round(sum(original_price) / sum(amount_of_tickets)) as avg_profit_per_ticket
+    count(distinct scraped_day) AS scraped_days
 
   from tickets
   group by 1,2,3
