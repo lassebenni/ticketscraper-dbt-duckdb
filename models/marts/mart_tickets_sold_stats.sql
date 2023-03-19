@@ -4,56 +4,77 @@
 with
     tickets_sold as (select * from {{ ref("stg_tickets_sold") }}),
 
-    -- Get the count of prices for each event
-    count_prices_cte as (
-        select
-            event_name,
-            event_start_date,
-            entrance_title,
-            price,
-            count(*) as count_prices
-        from tickets_sold
-        group by 1, 2, 3, 4
-        order by 1 desc
-    ),
+tickets as (
+  select
+    date_trunc('day', updated) as scraped_day,
+    event_name,
+    CAST(event_start_date AS DATETIME) as event_start_date,
+    entrance_title,
+    amount_of_tickets,
+    original_price,
+    price,
+    profit
 
-    -- Get the median price for each event
-    median_price_cte as (
-        select
-            event_name,
-            entrance_title,
-            count_prices,
-            price,
-            row_number() over (
-                partition by event_name, entrance_title order by count_prices desc
-            ) rn
-        from count_prices_cte
-        order by 1, 2, 3, 4 desc
-    ),
+  from mart_tickets_enriched
 
-    -- Get the statistics for each event
-    stats_cte as (
-        select
-            s.event_name,
-            s.event_start_date as start_date,
-            s.entrance_title,
-            m.price as median_price,
-            count(s.price) as tickets_sold,
-            min(s.original_price),
-            round(m.price - min(s.original_price), 2) as median_profit,
-            min(s.price),
-            max(s.price),
-            min(s.updated) as first_listing_date,
-            max(s.updated) as last_listing_date
-        from tickets_sold s
-        left join
-            median_price_cte m
-            on s.event_name = m.event_name
-            and s.entrance_title = m.entrance_title
-            and m.rn = 1
-        group by 1, 2, 3, 4
-        order by 1, 3 asc, 2 asc
-    )
+),
 
-select *
-from stats_cte
+grouped_scraped_day_event_startdate_entrance as (
+  select
+    scraped_day,
+    event_name,
+    event_start_date,
+    entrance_title,
+
+    round(sum(price)) as sum_price,
+    sum(amount_of_tickets) as sum_tickets,
+    -- round(avg(original_price)) as avg_original_price_per_listing,
+    -- round(avg(price)) as avg_price_per_listing,
+    round(sum(price) / sum(amount_of_tickets)) as avg_price_per_ticket,
+    round(sum(original_price) / sum(amount_of_tickets)) as avg_original_price_per_ticket,
+    round(sum(price) / sum(amount_of_tickets)) - round(sum(original_price) / sum(amount_of_tickets)) as avg_profit_per_ticket
+
+
+  from tickets
+  group by 1, 2, 3, 4
+
+),
+
+grouped_event_startdate_entrance as (
+  select
+    event_name,
+    event_start_date,
+    entrance_title,
+
+    count(distinct scraped_day) AS scraped_days,
+    round(sum(price)) as sum_price,
+    sum(amount_of_tickets) as sum_tickets,
+    round(sum(price) / sum(amount_of_tickets)) as avg_price_per_ticket,
+    round(sum(original_price) / sum(amount_of_tickets)) as avg_original_price_per_ticket,
+    round(sum(price) / sum(amount_of_tickets)) - round(sum(original_price) / sum(amount_of_tickets)) as avg_profit_per_ticket
+
+  from tickets
+  group by 1,2,3
+),
+
+final as (
+    select 
+    a.scraped_day,
+    a.event_name,
+    a.event_start_date,
+    a.entrance_title,
+    a.sum_price,
+    a.sum_tickets,
+    a.avg_price_per_ticket,
+    a.avg_original_price_per_ticket,
+    a.avg_profit_per_ticket,
+
+    b.scraped_days
+
+    from grouped_scraped_day_event_startdate_entrance a
+    left join grouped_event_startdate_entrance b 
+    on a.event_name = b.event_name and a.event_start_date = b.event_start_date and a.entrance_title = b.entrance_title
+    order by a.scraped_day asc, a.event_name, a.event_start_date desc, a.sum_tickets desc
+)
+
+select * from final
