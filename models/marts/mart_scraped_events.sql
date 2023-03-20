@@ -12,10 +12,9 @@ tickets as (
     entrance_title,
     amount_of_tickets,
     original_price,
-    price,
-    profit
+    price
 
-  from mart_tickets_enriched
+  from tickets_sold
 
 ),
 

@@ -2,7 +2,7 @@
 {{ config(materialized='external', format='parquet', location="s3://lbenninga-projects/ticketswap/dbt/mart_profit_per_event.parquet") }}
 
 with
-    tickets as (select * from {{ ref("mart_tickets_enriched") }}),
+    tickets as (select * from {{ ref("int_tickets_enriched") }}),
 
 tickets_scraped as (
   select
