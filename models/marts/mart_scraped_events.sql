@@ -25,11 +25,11 @@ grouped_scraped_day_event_startdate_entrance as (
     event_start_date,
     entrance_title,
 
-    round(sum(price)) as sum_price,
-    sum(amount_of_tickets) as sum_tickets,
-    round(sum(price) / sum(amount_of_tickets)) as avg_price_per_ticket,
-    round(sum(original_price) / sum(amount_of_tickets)) as avg_original_price_per_ticket,
-    round(sum(price) / sum(amount_of_tickets)) - round(sum(original_price) / sum(amount_of_tickets)) as avg_profit_per_ticket
+    round(sum(price)) as sum_price_per_day,
+    sum(amount_of_tickets) as sum_tickets_per_day,
+    round(sum(price) / sum(amount_of_tickets)) as avg_price_per_ticket_per_day,
+    round(sum(original_price) / sum(amount_of_tickets)) as avg_original_price_per_ticket_per_day,
+    round(sum(price) / sum(amount_of_tickets)) - round(sum(original_price) / sum(amount_of_tickets)) as avg_profit_per_ticket_per_day
 
   from tickets
   group by 1, 2, 3, 4
@@ -42,7 +42,12 @@ grouped_event_startdate_entrance as (
     event_start_date,
     entrance_title,
 
-    count(distinct scraped_day) AS scraped_days
+    count(distinct scraped_day) AS scraped_days_per_entrance,
+    sum(amount_of_tickets) as total_tickets_per_entrance,
+    round(sum(price)) as total_price_per_entrance,
+    round(sum(original_price)) as total_original_price_per_entrance,
+    round(sum(price) - sum(original_price)) as total_profit_per_entrance
+
 
   from tickets
   group by 1,2,3
@@ -50,22 +55,27 @@ grouped_event_startdate_entrance as (
 
 final as (
     select 
-    a.scraped_day,
-    a.event_name,
-    a.event_start_date,
-    a.entrance_title,
-    a.sum_price,
-    a.sum_tickets,
-    a.avg_price_per_ticket,
-    a.avg_original_price_per_ticket,
-    a.avg_profit_per_ticket,
+    scraped.scraped_day,
+    scraped.event_name,
+    scraped.event_start_date,
+    scraped.entrance_title,
+    scraped.sum_price_per_day,
+    scraped.sum_tickets_per_day,
+    scraped.avg_price_per_ticket_per_day,
+    scraped.avg_original_price_per_ticket_per_day,
+    scraped.avg_profit_per_ticket_per_day,
 
-    b.scraped_days
+    entrance.scraped_days_per_entrance,
+    entrance.total_tickets_per_entrance,
+    entrance.total_price_per_entrance,
+    entrance.total_original_price_per_entrance,
+    entrance.total_profit_per_entrance
 
-    from grouped_scraped_day_event_startdate_entrance a
-    left join grouped_event_startdate_entrance b 
-    on a.event_name = b.event_name and a.event_start_date = b.event_start_date and a.entrance_title = b.entrance_title
-    order by a.scraped_day asc, a.event_name, a.event_start_date desc, a.sum_tickets desc
+
+    from grouped_scraped_day_event_startdate_entrance scraped
+    left join grouped_event_startdate_entrance entrance
+    on scraped.event_name = entrance.event_name and scraped.event_start_date = entrance.event_start_date and scraped.entrance_title = entrance.entrance_title
+    order by scraped.scraped_day asc, scraped.event_name, scraped.event_start_date desc, scraped.sum_tickets_per_day desc
 )
 
 select * from final
