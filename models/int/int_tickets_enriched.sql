@@ -22,23 +22,8 @@ with
             original_price,
             price,
             round(price - original_price, 2) as profit,
+            seller_id
         from tickets_sold
     )
 
-select
-    event_name,
-    entrance_title,
-    event_entrance_id,
-    url,
-    updated,
-    description,
-    event_start_date,
-    event_end_date,
-    location,
-    city,
-    status,
-    amount_of_tickets,
-    original_price,
-    price,
-    profit
-from combined
+select * from combined
