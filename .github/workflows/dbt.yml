@@ -23,6 +23,8 @@ jobs:
       - name: poetry install
         run: poetry install
 
+      - name: run sqlfluff
+        run: poetry run sqlfluff format models
       - name: dbt deps
         run: poetry run dbt deps
 
