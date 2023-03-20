@@ -24,7 +24,7 @@ jobs:
         run: poetry install
 
       - name: run sqlfluff
-        run: poetry run sqlfluff format models
+        run: poetry run sqlfluff format models --dialect duckdb
       - name: dbt deps
         run: poetry run dbt deps
 
