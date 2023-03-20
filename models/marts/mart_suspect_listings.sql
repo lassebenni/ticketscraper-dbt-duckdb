@@ -21,9 +21,12 @@ with
     suspect_event as (
 
         select
-            t.url,
+            t.event_name,
+            t.event_start_date,
+            t.entrance_title,
             t.price,
             t.original_price,
+            t.url,
             case
                 when t.price > e.price_upper_bound or t.price < e.price_lower_bound
                 then 1
