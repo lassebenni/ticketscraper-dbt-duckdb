@@ -1,7 +1,7 @@
 {{ config(materialized="incremental", unique_key="id") }}
 
 with
-source as (select * from {{ source("parquet", "sold") }}
+source as (select * from {{ source("sold", "sold") }}
 ),
 
 renamed as (
@@ -47,7 +47,9 @@ renamed as (
 
 )
 
-
-
-select * from renamed
-where row_num = 1
+select * exclude (row_num)
+from renamed
+where
+    row_num = 1
+    -- Only EUR for now - 20-03-23
+    and currency = 'EUR'
