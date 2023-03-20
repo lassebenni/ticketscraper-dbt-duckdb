@@ -3,7 +3,7 @@
 
 with
     tickets as (select * from {{ ref("int_tickets_enriched") }}),
-    scraped_events as (select * from {{ ref("mart_scraped_events") }}),
+    entrances as (select * from {{ ref("int_event_entrances") }}),
 
 
     event_stdev as (
@@ -15,7 +15,7 @@ with
             * (price_per_entrance_q3 - price_per_entrance_q1) as price_lower_bound,
             price_per_entrance_q3
             + 1.5 * (price_per_entrance_q3 - price_per_entrance_q1) as price_upper_bound
-        from scraped_events
+        from entrances
     ),
 
     suspect_event as (
