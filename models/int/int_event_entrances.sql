@@ -6,14 +6,14 @@ tickets_sold as (select * from {{ ref("stg_tickets_sold") }}
 
 tickets as (
     select
-        date_trunc('day', updated) as scraped_day,
         event_name,
         event_start_date,
         entrance_title,
         event_entrance_id,
         amount_of_tickets,
         original_price,
-        price
+        price,
+        date_trunc('day', updated) as scraped_day
 
     from tickets_sold
 
