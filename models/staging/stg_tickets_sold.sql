@@ -16,9 +16,6 @@ renamed as (
         amount_of_tickets,
         entrance_title,
         entrance_id,
-        md5(
-            concat(event_name, event_start_date, entrance_title)
-        ) as event_entrance_id,
         original_price,
         price,
         currency,
@@ -28,6 +25,9 @@ renamed as (
         status,
         seller_name,
         seller_id,
+        md5(
+            concat(event_name, event_start_date, entrance_title)
+        ) as event_entrance_id,
         case
             when position('.' in updated) > 0
                 then strptime(updated, '%Y-%m-%d %H:%M:%S.%f')
