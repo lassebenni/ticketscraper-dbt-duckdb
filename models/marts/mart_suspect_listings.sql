@@ -25,6 +25,7 @@ event_stdev as (
 suspect_event as (
 
     select
+        t.id,
         t.event_name,
         t.event_start_date,
         t.entrance_title,

@@ -8,6 +8,7 @@ tickets_sold as (select * from {{ ref("stg_tickets_sold") }}
 
 combined as (
     select
+        id,
         event_name,
         entrance_title,
         event_entrance_id,
