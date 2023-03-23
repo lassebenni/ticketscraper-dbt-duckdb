@@ -40,6 +40,9 @@ jobs:
       - name: dbt build
         run: poetry run dbt build --profiles-dir .
 
+      - name: dbt source freshness
+        run: poetry run dbt source freshness --profiles-dir .
+
       - uses: lassebenni/publish-to-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub sets this for you
