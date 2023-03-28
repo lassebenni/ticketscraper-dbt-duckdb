@@ -1,7 +1,7 @@
 {{ config(materialized="table") }}
 
 with
-tickets_sold as (select * from {{ ref("stg_tickets_sold") }}
+tickets_sold as (select * from {{ ref("int_validated_tickets") }}
 ),
 
 seller as (

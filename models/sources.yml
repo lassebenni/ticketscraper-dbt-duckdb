@@ -20,3 +20,9 @@ sources:
       external_location: "s3://lbenninga-projects/ticketswap/events/*/*.parquet"
     tables:
       - name: events
+
+  - name: invalid_listings
+    meta:
+      external_location: "s3://lbenninga-projects/ticketswap/dbt/invalid_listings.parquet"
+    tables:
+      - name: invalid_listings
