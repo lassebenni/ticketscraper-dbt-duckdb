@@ -6,12 +6,15 @@ with
 tickets as (
     select * from {{ ref("int_tickets_enriched") }}
 ),
+
 entrances as (
     select * from {{ ref("int_event_entrances") }}
 ),
+
 invalid_listings as (
     select * from {{ ref("stg_invalid_listings") }}
 ),
+
 event_stdev as (
     select
         event_entrance_id,
@@ -20,10 +23,11 @@ event_stdev as (
         round(price_per_entrance_q3 * 1.5) as price_upper_bound, #}
         round(median_price_per_entrance / 2) as price_lower_bound,
         round(median_price_per_entrance * 2) as price_upper_bound,
-        median_price_per_entrance,
+        median_price_per_entrance
 
     from entrances
 ),
+
 suspect_event as (
     select
         t.updated,
@@ -33,7 +37,13 @@ suspect_event as (
         t.entrance_title,
         t.price,
         median_price_per_entrance,
-        abs(round((t.price - e.median_price_per_entrance) / e.median_price_per_entrance * 100)) as price_diff_median_percent,
+        abs(
+            round(
+                (t.price - e.median_price_per_entrance)
+                / e.median_price_per_entrance
+                * 100
+            )
+        ) as price_diff_median_percent,
         e.price_lower_bound,
         e.price_upper_bound,
         t.original_price,
@@ -42,7 +52,7 @@ suspect_event as (
         e.total_tickets_per_entrance,
         case
             when t.price > e.price_upper_bound or t.price < e.price_lower_bound
-            then 1
+                then 1
             else 0
         end as suspect
     from tickets t
