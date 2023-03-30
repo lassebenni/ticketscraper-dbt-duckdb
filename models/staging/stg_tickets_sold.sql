@@ -10,7 +10,6 @@ renamed as (
         id,
         description,
         event_name,
-        event_start_date,
         cast(event_start_date as datetime) as event_start_date,
         event_end_date,
         amount_of_tickets,

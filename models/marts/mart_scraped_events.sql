@@ -13,7 +13,7 @@ event_entrances_scraped as (
         scraped.event_entrance_id,
         scraped.scraped_day,
         scraped.event_name,
-        cast(event_start_date as datetime) as event_start_date,
+        cast(scraped.event_start_date as datetime) as event_start_date,
         scraped.entrance_title,
         scraped.sum_price_per_day,
         scraped.sum_tickets_per_day,
