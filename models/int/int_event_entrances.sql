@@ -50,6 +50,7 @@ event_entrances as (
 final as (
     select
         event_entrance_id,
+        event_start_date,
         scraped_days_per_entrance,
         total_tickets_per_entrance,
         total_price_per_entrance,

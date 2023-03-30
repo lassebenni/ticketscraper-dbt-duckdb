@@ -18,9 +18,8 @@ invalid_listings as (
 event_stdev as (
     select
         event_entrance_id,
+        event_start_date,
         total_tickets_per_entrance,
-        {# round(price_per_entrance_q1 / 1.5) as price_lower_bound,
-        round(price_per_entrance_q3 * 1.5) as price_upper_bound, #}
         round(median_price_per_entrance / 2) as price_lower_bound,
         round(median_price_per_entrance * 2) as price_upper_bound,
         median_price_per_entrance
@@ -52,6 +51,8 @@ suspect_event as (
         e.total_tickets_per_entrance,
         case
             when t.price > e.price_upper_bound or t.price < e.price_lower_bound
+                then 1
+            when t.updated > e.event_start_date
                 then 1
             else 0
         end as suspect
