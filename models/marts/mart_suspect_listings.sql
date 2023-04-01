@@ -20,9 +20,9 @@ event_stdev as (
         event_entrance_id,
         event_start_date,
         total_tickets_per_entrance,
-        round(median_price_per_entrance / 2) as price_lower_bound,
-        round(median_price_per_entrance * 2) as price_upper_bound,
-        median_price_per_entrance
+        median_original_price_per_entrance,
+        median_original_price_per_entrance / 2 as price_lower_bound,
+        median_original_price_per_entrance * 2 as price_upper_bound
 
     from entrances
 ),
@@ -35,11 +35,11 @@ suspect_event as (
         t.event_start_date,
         t.entrance_title,
         t.price,
-        median_price_per_entrance,
+        median_original_price_per_entrance,
         abs(
             round(
-                (t.price - e.median_price_per_entrance)
-                / e.median_price_per_entrance
+                (t.price - e.median_original_price_per_entrance)
+                / e.median_original_price_per_entrance
                 * 100
             )
         ) as price_diff_median_percent,
@@ -52,10 +52,13 @@ suspect_event as (
         case
             when t.price > e.price_upper_bound or t.price < e.price_lower_bound
                 then 1
+            else 0
+        end as suspect_price,
+        case
             when t.updated > e.event_start_date
                 then 1
             else 0
-        end as suspect
+        end as suspect_datetime
     from tickets t
     left join event_stdev e on t.event_entrance_id = e.event_entrance_id
     where id not in (select id from invalid_listings)
@@ -63,5 +66,5 @@ suspect_event as (
 
 select *
 from suspect_event
-where suspect = 1
+where suspect_price = 1 or suspect_datetime = 1
 order by price_diff_median_percent asc
