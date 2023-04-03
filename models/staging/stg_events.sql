@@ -27,12 +27,12 @@ final as (
 
     from source
 
-        {% if is_incremental() %}
+    {% if is_incremental() %}
 
-            -- this filter will only be applied on an incremental run
-            where updated > (select max(updated) from {{ this }})
+        -- this filter will only be applied on an incremental run
+        where updated > (select max(updated) from {{ this }})
 
-        {% endif %}
+    {% endif %}
 )
 
 select *
