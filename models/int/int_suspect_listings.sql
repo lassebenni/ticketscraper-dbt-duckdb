@@ -1,6 +1,6 @@
 {{ config(materialized="table") }}
 
-{{ config(materialized='external', format='parquet', location="s3://lbenninga-projects/ticketswap/dbt/mart_suspect_listings.parquet") }}
+{{ config(materialized='external', format='parquet', location="s3://lbenninga-projects/ticketswap/dbt/int_suspect_listings.parquet") }}
 
 with
 tickets as (
