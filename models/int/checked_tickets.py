@@ -21,7 +21,10 @@ def check_expired(url: str) -> bool:
     response = requests.get(url, headers=headers)
     time.sleep(1)
 
-    if "Bummer, this type of tickets has" in response.text:
+    with(open("response.html", "w")) as f:
+        f.write(response.text)
+
+    if "Bummer, this ticket type has" in response.text:
         return True
     elif "<strong>sold" in response.text:
         return False
@@ -35,6 +38,7 @@ def model(dbt, session):
 
     df = rel.to_df()
     # for each row in the df check if the 'url' is expired
-    df["expired"] = df["url"].apply(lambda x: check_expired(x))
+    df["expired"] = df["url"].head(1).apply(lambda x: check_expired(x))
 
     return df
+
