@@ -11,6 +11,7 @@ s3fs = "2023.3.0"
 sqlfmt = "^0.0.2"
 sqlfluff = "^2.0.1"
 pyarrow = "^12.0.0"
+pandas = "^2.0.2"
 
 
 [tool.poetry.dev-dependencies]
