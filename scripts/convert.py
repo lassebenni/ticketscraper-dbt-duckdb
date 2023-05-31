@@ -3,7 +3,9 @@ import pandas as pd
 
 # Parse command line arguments
 parser = argparse.ArgumentParser()
-parser.add_argument("csv_file", help="the name of the CSV file to be converted to Parquet")
+parser.add_argument(
+    "csv_file", help="the name of the CSV file to be converted to Parquet"
+)
 args = parser.parse_args()
 
 # Read in the CSV file
