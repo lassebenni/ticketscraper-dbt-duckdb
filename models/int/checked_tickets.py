@@ -29,7 +29,7 @@ def check_expired(url: str) -> bool:
     elif "<strong>sold" in response.text:
         return False
     else:
-        raise ValueError("Unexpected response from TicketSwap")
+         return False
 
 
 def model(dbt, session):
@@ -38,7 +38,7 @@ def model(dbt, session):
 
     df = rel.to_df()
     # for each row in the df check if the 'url' is expired
-    df["expired"] = df["url"].head(1).apply(lambda x: check_expired(x))
+    df["expired"] = df["url"].apply(lambda x: check_expired(x))
 
     return df
 
