@@ -19,7 +19,6 @@ headers = {
 
 def check_expired(url: str) -> bool:
     response = requests.get(url, headers=headers)
-    time.sleep(1)
 
     with(open("response.html", "w")) as f:
         f.write(response.text)
