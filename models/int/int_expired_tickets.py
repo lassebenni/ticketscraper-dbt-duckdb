@@ -1,5 +1,4 @@
 import requests
-import time
 
 headers = {
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:101.0) Gecko/20100101 Firefox/101.0",
@@ -20,24 +19,34 @@ headers = {
 def check_expired(url: str) -> bool:
     response = requests.get(url, headers=headers)
 
-    with(open("response.html", "w")) as f:
+    with open("response.html", "w") as f:
         f.write(response.text)
 
     if "Bummer, this ticket type has" in response.text:
         return True
-    elif "<strong>sold" in response.text:
-        return False
+    # elif "<strong>sold" in response.text:
+    #     return False
     else:
-         return False
+        return False
 
 
 def model(dbt, session):
-    dbt.config(materialized="table")
+    dbt.config(
+        materialized="incremental",
+        unique_key="id",
+    )
     rel = dbt.ref("int_suspect_listings")
-
     df = rel.to_df()
+
+    if dbt.is_incremental:
+        # only new rows compared to max in current table
+        max_from_this = f"select max(updated) from {dbt.this}"
+        df = df.filter(df['updated'] >= session.sql(max_from_this).collect()[0][0])
+
     # for each row in the df check if the 'url' is expired
     df["expired"] = df["url"].apply(lambda x: check_expired(x))
 
-    return df
+    # only return expired rows
+    df = df[df["expired"] == True]
 
+    return df
