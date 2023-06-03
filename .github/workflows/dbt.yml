@@ -1,6 +1,5 @@
 name: "DBT Run"
 on:
-  push:
   schedule:
     - cron: "0 12 * * *" # every day at 12:00 pm
 
