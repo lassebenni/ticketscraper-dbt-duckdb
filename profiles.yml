@@ -1,0 +1,13 @@
+ticketscraper_dbt_duckdb:
+  outputs:
+    dev:
+      type: duckdb
+      path: "dbt.duckdb"
+      extensions:
+        - httpfs
+        - parquet
+      settings:
+        s3_region: eu-west-1
+        s3_access_key_id: "{{ env_var('AWS_ACCESS_KEY_ID') }}"
+        s3_secret_access_key: "{{ env_var('AWS_SECRET_ACCESS_KEY') }}"
+  target: dev
