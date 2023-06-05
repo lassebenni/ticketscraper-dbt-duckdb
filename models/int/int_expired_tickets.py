@@ -1,4 +1,5 @@
 import requests
+import pdb
 
 headers = {
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:101.0) Gecko/20100101 Firefox/101.0",
@@ -40,8 +41,9 @@ def model(dbt, session):
 
     if dbt.is_incremental:
         # only new rows compared to max in current table
-        max_from_this = f"select max(updated) from {dbt.this}"
-        df = df.filter(df['updated'] >= session.sql(max_from_this).collect()[0][0])
+        max_date_in_model = session.sql(f"select max(updated) from {dbt.this}")
+        max_date = max_date_in_model.df().values[0][0]
+        df = df[df['updated'] >= max_date]
 
     # for each row in the df check if the 'url' is expired
     df["expired"] = df["url"].apply(lambda x: check_expired(x))
