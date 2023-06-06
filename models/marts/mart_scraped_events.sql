@@ -16,13 +16,13 @@ event_entrances_scraped as (
         cast(scraped.event_start_date as datetime) as event_start_date,
         scraped.entrance_title,
         scraped.sum_price_per_day,
-        scraped.sum_tickets_per_day,
+        scraped.sum_listings_per_day,
         scraped.avg_price_per_ticket_per_day,
         scraped.avg_original_price_per_ticket_per_day,
         scraped.avg_profit_per_ticket_per_day,
 
         entrance.scraped_days_per_entrance,
-        entrance.total_tickets_per_entrance,
+        entrance.total_listings_per_entrance,
         entrance.total_price_per_entrance,
         entrance.total_original_price_per_entrance,
         entrance.total_profit_per_entrance,
@@ -43,7 +43,7 @@ event_entrances_scraped as (
         scraped.scraped_day asc,
         scraped.event_name,
         scraped.event_start_date desc,
-        scraped.sum_tickets_per_day desc
+        scraped.sum_listings_per_day desc
 )
 
 select *
