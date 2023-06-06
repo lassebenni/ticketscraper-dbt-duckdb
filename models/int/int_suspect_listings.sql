@@ -3,8 +3,8 @@
 {{ config(materialized='external', format='parquet', location="s3://lbenninga-projects/ticketswap/dbt/int_suspect_listings.parquet") }}
 
 with
-tickets as (
-    select * from {{ ref("int_tickets_enriched") }}
+listings as (
+    select * from {{ ref("stg_listings_sold") }}
 ),
 
 entrances as (
@@ -19,7 +19,7 @@ event_stdev as (
     select
         event_entrance_id,
         event_start_date,
-        total_tickets_per_entrance,
+        total_listings_per_entrance,
         median_original_price_per_entrance,
         median_original_price_per_entrance / 2 as price_lower_bound,
         median_original_price_per_entrance * 2 as price_upper_bound
@@ -48,7 +48,7 @@ suspect_event as (
         t.original_price,
         t.url,
         e.event_entrance_id,
-        e.total_tickets_per_entrance,
+        e.total_listings_per_entrance,
         case
             when t.price > e.price_upper_bound or t.price < e.price_lower_bound
                 then 1
@@ -59,7 +59,7 @@ suspect_event as (
                 then 1
             else 0
         end as suspect_datetime
-    from tickets t
+    from listings t
     left join event_stdev e on t.event_entrance_id = e.event_entrance_id
     where id not in (select id from invalid_listings)
 )

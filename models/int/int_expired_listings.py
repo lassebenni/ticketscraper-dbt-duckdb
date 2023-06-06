@@ -20,9 +20,6 @@ headers = {
 def check_expired(url: str) -> bool:
     response = requests.get(url, headers=headers)
 
-    with open("response.html", "w") as f:
-        f.write(response.text)
-
     if "Bummer, this ticket type has" in response.text:
         return True
     # elif "<strong>sold" in response.text:

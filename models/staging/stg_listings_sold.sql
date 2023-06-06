@@ -12,7 +12,7 @@ renamed as (
         event_name,
         cast(event_start_date as datetime) as event_start_date,
         event_end_date,
-        amount_of_tickets,
+        amount_of_tickets as amount_of_listings,
         entrance_title,
         entrance_id,
         original_price,
