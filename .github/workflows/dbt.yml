@@ -1,5 +1,6 @@
 name: "DBT Run"
 on:
+  workflow_dispatch:
   schedule:
     - cron: "0 12 * * *" # every day at 12:00 pm
 
