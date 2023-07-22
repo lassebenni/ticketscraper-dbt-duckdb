@@ -57,6 +57,8 @@ suspect_event as (
         case
             when t.updated > e.event_start_date
                 then 1
+            when date_diff('day', t.updated, e.event_start_date) < 2
+                then 1
             else 0
         end as suspect_datetime
     from listings t
@@ -66,5 +68,6 @@ suspect_event as (
 
 select *
 from suspect_event
-where suspect_price = 1 or suspect_datetime = 1
+where (suspect_price = 1 or suspect_datetime = 1)
 order by price_diff_median_percent asc
+

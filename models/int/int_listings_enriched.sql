@@ -29,3 +29,4 @@ combined as (
 )
 
 select * from combined
+order by profit asc
