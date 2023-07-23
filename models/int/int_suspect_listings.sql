@@ -70,4 +70,3 @@ select *
 from suspect_event
 where (suspect_price = 1 or suspect_datetime = 1)
 order by price_diff_median_percent asc
-
