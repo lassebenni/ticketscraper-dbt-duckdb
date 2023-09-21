@@ -26,3 +26,15 @@ sources:
       external_location: "s3://lbenninga-projects/ticketswap/dbt/invalid_listings.parquet"
     tables:
       - name: invalid_listings
+
+  - name: event_cities
+    meta:
+      external_location: "s3://lbenninga-projects/ticketswap/events/cities/*/*/*.parquet"
+    tables:
+      - name: event_cities
+
+  - name: sold_cities
+    meta:
+      external_location: "s3://lbenninga-projects/ticketswap/sold/cities/*/*/*.parquet"
+    tables:
+      - name: sold_cities

@@ -34,8 +34,6 @@ listings_sold_clean as (
         and id not in (select id from expired_listings)
 )
 
-select
-    updated,
-    *
+select *
 from listings_sold_clean
 order by price desc
