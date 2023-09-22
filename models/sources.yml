@@ -17,7 +17,7 @@ sources:
 
   - name: events
     meta:
-      external_location: "s3://lbenninga-projects/ticketswap/events/*/*.parquet"
+      external_location: "s3://lbenninga-projects/ticketswap/v1/events.parquet"
     tables:
       - name: events
 
