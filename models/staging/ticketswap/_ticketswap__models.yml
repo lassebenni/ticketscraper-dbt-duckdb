@@ -99,3 +99,18 @@ models:
 
       - name: url
         description: ""
+
+  - name: stg_invalid_listings
+    description: ""
+    columns:
+      - name: id
+        description: ""
+        tests:
+          - unique
+          - not_null
+
+      - name: event_name
+        description: ""
+
+      - name: url
+        description: ""

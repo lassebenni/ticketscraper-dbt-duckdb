@@ -2,7 +2,9 @@
 
 with
 source as (select * from {{ source("invalid_listings", "invalid_listings") }}
-)
+),
+
+final as (
 
 select
     id,
@@ -10,3 +12,8 @@ select
     url
 
 from source
+
+)
+
+select *
+from final
