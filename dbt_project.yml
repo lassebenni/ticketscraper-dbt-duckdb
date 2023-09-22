@@ -24,5 +24,4 @@ models:
       +materialized: view
 vars:
   data_diff:
-    prod_database: main
     prod_schema: main
