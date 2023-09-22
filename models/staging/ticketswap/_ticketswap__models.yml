@@ -56,3 +56,61 @@ models:
 
       - name: seller_id
         description: ""
+
+
+  - name: stg_events
+    description: ""
+    columns:
+      - name: event_id
+        description: ""
+        tests:
+          - unique
+          - not_null
+
+      - name: updated_at
+        description: ""
+
+      - name: name
+        description: ""
+
+      - name: slug
+        description: ""
+
+      - name: available_tickets
+        description: ""
+
+      - name: sold_tickets
+        description: ""
+
+      - name: wanted_tickets
+        description: ""
+
+      - name: location
+        description: ""
+
+      - name: city
+        description: ""
+
+      - name: start_date
+        description: ""
+
+      - name: end_date
+        description: ""
+
+      - name: url
+        description: ""
+
+  - name: stg_invalid_listings
+    description: ""
+    columns:
+      - name: id
+        description: ""
+        tests:
+          - unique
+          - not_null
+
+      - name: event_name
+        description: ""
+
+      - name: url
+        description: ""
