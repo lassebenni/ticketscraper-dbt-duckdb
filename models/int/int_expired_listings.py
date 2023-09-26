@@ -32,7 +32,6 @@ def model(dbt, session):
     dbt.config(
         materialized="incremental",
         unique_key="id",
-        enabled=False
     )
     rel = dbt.ref("int_suspect_listings")
     df = rel.to_df()
