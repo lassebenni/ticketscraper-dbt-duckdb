@@ -21,3 +21,4 @@ data/
 *.db.wal
 data/
 dbt.duckdb
+.user.yml
