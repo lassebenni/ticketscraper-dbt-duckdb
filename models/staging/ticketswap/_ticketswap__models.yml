@@ -1,16 +1,14 @@
-
 version: 2
 
 models:
-  - name: stg_listings_sold
+  - name: stg_sold
     description: ""
     columns:
-      - name: updated
+      - name: ticket_id
         description: ""
-        data_type: timestamp
-
-      - name: id
-        description: ""
+        tests:
+          - unique
+          - not_null
 
       - name: description
         description: ""
@@ -39,6 +37,9 @@ models:
       - name: price
         description: ""
 
+      - name: currency
+        description: ""
+
       - name: location
         description: ""
 
@@ -57,6 +58,11 @@ models:
       - name: seller_id
         description: ""
 
+      - name: event_entrance_id
+        description: ""
+
+      - name: updated
+        description: ""
 
   - name: stg_events
     description: ""
@@ -95,21 +101,6 @@ models:
         description: ""
 
       - name: end_date
-        description: ""
-
-      - name: url
-        description: ""
-
-  - name: stg_invalid_listings
-    description: ""
-    columns:
-      - name: id
-        description: ""
-        tests:
-          - unique
-          - not_null
-
-      - name: event_name
         description: ""
 
       - name: url

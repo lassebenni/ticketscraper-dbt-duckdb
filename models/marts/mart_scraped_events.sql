@@ -1,5 +1,4 @@
 {{ config(materialized="table") }}
-{{ config(materialized='external', format='parquet', location="s3://lbenninga-projects/ticketswap/dbt/mart_scraped_events.parquet") }}
 
 with
 scraped as (select * from {{ ref("int_event_scrape") }}

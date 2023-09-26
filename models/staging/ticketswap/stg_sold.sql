@@ -1,13 +1,13 @@
-{{ config(materialized="incremental", unique_key="id") }}
+{{ config(materialized="incremental", unique_key="ticket_id") }}
 
 with
 source as (select * from {{ source("sold", "sold") }}
 ),
 
-renamed as (
+final as (
 
     select
-        id,
+        id as ticket_id,
         description,
         event_name,
         cast(event_start_date as datetime) as event_start_date,
@@ -32,23 +32,18 @@ renamed as (
                 then strptime(updated, '%Y-%m-%d %H:%M:%S.%f')
             else strptime(updated, '%Y-%m-%d %H:%M:%S')
         end as updated,
-        row_number() over (partition by id order by updated desc) as row_num
 
 
     from source
 
     {% if is_incremental() %}
-
         -- this filter will only be applied on an incremental run
         where updated > (select max(updated) from {{ this }})
-
     {% endif %}
 
+    qualify row_number() over (partition by ticket_id order by updated desc) = 1
 )
 
-select * exclude (row_num)
-from renamed
-where
-    row_num = 1
-    -- Only EUR for now - 20-03-23
-    and currency = 'EUR'
+select *
+from final
+where currency = 'EUR'

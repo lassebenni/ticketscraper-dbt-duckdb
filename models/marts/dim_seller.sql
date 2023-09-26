@@ -1,5 +1,4 @@
 {{ config(materialized="table") }}
-{{ config(materialized='external', format='parquet', location="s3://lbenninga-projects/ticketswap/dbt/dim_seller.parquet") }}
 
 with
 listings as (select * from {{ ref("int_listings_enriched") }}

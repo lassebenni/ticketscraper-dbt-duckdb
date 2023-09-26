@@ -1,3 +1,8 @@
+{{
+  config(
+    enabled = false
+    )
+}}
 with listings as (
 select *
 from {{ ref('int_validated_listings') }}

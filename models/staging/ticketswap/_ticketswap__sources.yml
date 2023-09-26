@@ -1,0 +1,22 @@
+version: 2
+
+sources:
+  - name: sold
+    meta:
+      external_location: "s3://lbenninga-projects/ticketswap/sold/*/*/*.parquet"
+    tables:
+      - name: sold
+        freshness:
+          warn_after:
+            count: 1
+            period: day
+          error_after:
+            count: 2
+            period: day
+        loaded_at_field: updated
+
+  - name: events
+    meta:
+      external_location: "s3://lbenninga-projects/ticketswap/events/*/*/*.parquet"
+    tables:
+      - name: events

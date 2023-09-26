@@ -1,5 +1,5 @@
 {{ config(materialized="incremental", unique_key="event_id") }}
-{# {{ config(materialized='external', format='parquet', location="s3://lbenninga-projects/ticketswap/dbt/stg_events.parquet") }} #}
+
 with
     source as (select * from {{ source("events", "events") }}),
 

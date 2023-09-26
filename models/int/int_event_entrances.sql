@@ -1,7 +1,7 @@
 {{ config(materialized="table") }}
 
 with
-listings_sold as (select * from {{ ref("stg_listings_sold") }}
+listings_sold as (select * from {{ ref("stg_sold") }}
 ),
 
 listings as (
