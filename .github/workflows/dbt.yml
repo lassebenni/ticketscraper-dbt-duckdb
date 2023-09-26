@@ -46,22 +46,21 @@ jobs:
       - name: dbt source freshness
         run: poetry run dbt source freshness --profiles-dir .
 
-      - uses: lassebenni/publish-to-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub sets this for you
-
       - name: Upload the dbt.duckdb to S3
         run: poetry run python scripts/load_s3_files.py upload "${{ steps.download_and_get_md5.outputs.md5 }}"
 
       - name: Setup DBT Docs to GH Pages
         uses: actions/configure-pages@v3
+
       - name: Generate docs
         run: poetry run dbt docs generate --profiles-dir .
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
           # Upload the target directory containing the docs
           path: "target"
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
