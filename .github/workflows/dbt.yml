@@ -52,6 +52,11 @@ jobs:
       - name: Upload the dbt.duckdb to S3
         run: poetry run python scripts/load_s3_files.py upload "${{ steps.download_and_get_md5.outputs.md5 }}"
 
+      - name: Upload database to Motherduck
+        run: poetry run python scripts/upload_to_motherduck.py
+        env:
+          motherduck_token: ${{ secrets.MOTHERDUCK_TOKEN }}
+
       - name: Setup DBT Docs to GH Pages
         uses: actions/configure-pages@v3
 
