@@ -40,8 +40,8 @@ jobs:
           original_md5=$(poetry run python scripts/load_s3_files.py download)
           echo "::set-output name=md5::$original_md5"
 
-      - name: dbt full int_expired_tickets
-        run: poetry run dbt build -s int_expired_tickets --full-refresh --profiles-dir .
+      # - name: dbt full int_expired_tickets
+      #   run: poetry run dbt build -s int_expired_tickets --full-refresh --profiles-dir .
 
       - name: dbt build
         run: poetry run dbt build --profiles-dir .
