@@ -3,12 +3,13 @@
     enabled = false
     )
 }}
+
 with listings as (
 select *
 from {{ ref('int_validated_listings') }}
 ),
 
-expired as (select * from {{ ref("int_expired_listings") }}),
+expired as (select * from {{ ref("int_expired_tickets") }}),
 
 suspect as (select * from {{ ref('int_suspect_listings') }}),
 

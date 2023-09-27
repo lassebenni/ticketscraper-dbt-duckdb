@@ -3,7 +3,7 @@
 with
 listings_sold as (select * from {{ ref("stg_sold") }}),
 
-{# expired_listings as (select * from {{ ref("int_expired_listings") }}), #}
+expired_tickets as (select * from {{ ref("int_expired_tickets") }}),
 
 listings_sold_clean as (
     select
@@ -28,7 +28,7 @@ listings_sold_clean as (
         updated
     from listings_sold
     {# where
-        and ticket_id not in (select ticket_id from expired_listings) #}
+        and ticket_id not in (select ticket_id from expired_tickets) #}
 )
 
 select *
