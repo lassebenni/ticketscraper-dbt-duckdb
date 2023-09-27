@@ -1,7 +1,6 @@
 *.db
 *.db.wal
 data/
-.vscode
 dbt_packages
 logs
 target
