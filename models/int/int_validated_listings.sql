@@ -28,7 +28,7 @@ listings_sold_clean as (
         updated
     from listings_sold
     {# where
-        and id not in (select id from expired_listings) #}
+        and ticket_id not in (select ticket_id from expired_listings) #}
 )
 
 select *

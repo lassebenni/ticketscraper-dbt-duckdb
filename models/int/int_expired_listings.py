@@ -31,7 +31,7 @@ def check_expired(url: str) -> bool:
 def model(dbt, session):
     dbt.config(
         materialized="incremental",
-        unique_key="id",
+        unique_key="ticket_id",
     )
     rel = dbt.ref("int_suspect_listings")
     df = rel.to_df()
@@ -41,6 +41,9 @@ def model(dbt, session):
         max_date_in_model = session.sql(f"select max(updated) from {dbt.this}")
         max_date = max_date_in_model.df().values[0][0]
         df = df[df['updated'] >= max_date]
+
+    checked_ids = session.sql(f"select distinct ticket_id from {dbt.this}").fetchall()
+    df = df[~df["ticket_id"].isin(checked_ids)]
 
     # for each row in the df check if the 'url' is expired
     df["expired"] = df["url"].apply(lambda x: check_expired(x))
