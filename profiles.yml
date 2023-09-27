@@ -2,7 +2,8 @@ ticketscraper_dbt_duckdb:
   outputs:
     main:
       type: duckdb
-      path: "dbt.duckdb"
+      path: "md:?motherduck_token={{ env_var('motherduck_token') }}"
+      database: motherduck_dbt
       schema: "main"
       extensions:
         - httpfs
