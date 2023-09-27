@@ -2,9 +2,9 @@ ticketscraper_dbt_duckdb:
   outputs:
     main:
       type: duckdb
-      # path: "md:?motherduck_token={{ env_var('motherduck_token') }}"
-      # database: dbt
-      path: "dbt.duckdb"
+      path: "md:?motherduck_token={{ env_var('motherduck_token') }}"
+      database: motherduck_dbt
+      # path: "dbt.duckdb"
       schema: "main"
       extensions:
         - httpfs
@@ -13,4 +13,6 @@ ticketscraper_dbt_duckdb:
         s3_region: eu-west-1
         s3_access_key_id: "{{ env_var('AWS_ACCESS_KEY_ID') }}"
         s3_secret_access_key: "{{ env_var('AWS_SECRET_ACCESS_KEY') }}"
+      disable_transactions: true
+      threads: 8
   target: main
