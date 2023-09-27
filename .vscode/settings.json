@@ -1,0 +1,14 @@
+{
+    "dbt.queryLimit": 500,
+    "datafold-vscode.dbtProjectDir": "/Users/lassebenninga/Documents/github/ticketscraper-dbt-duckdb",
+    "datafold-vscode.dbtProfilesDir": "/Users/lassebenninga/Documents/github/ticketscraper-dbt-duckdb",
+    "sqltools.connections": [
+        {
+            "name": "DuckDB",
+            "accessMode": "Read/Write",
+            "previewLimit": 50,
+            "driver": "DuckDB",
+            "databaseFilePath": "/Users/lassebenninga/Documents/github/ticketscraper-dbt-duckdb/dbt.duckdb"
+        }
+    ]
+}
