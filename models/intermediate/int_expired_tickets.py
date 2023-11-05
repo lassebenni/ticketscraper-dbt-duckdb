@@ -1,5 +1,4 @@
 import requests
-import pdb
 
 headers = {
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:101.0) Gecko/20100101 Firefox/101.0",
@@ -31,7 +30,7 @@ def check_expired(url: str) -> bool:
 def model(dbt, session):
     dbt.config(
         materialized="incremental",
-        unique_key="ticket_id"
+        unique_key="ticket_id",
     )
     rel = dbt.ref("int_suspect_listings")
     df = rel.to_df()
