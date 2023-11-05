@@ -35,28 +35,11 @@ jobs:
       - name: dbt deps
         run: poetry run dbt deps
 
-      # - name: Download the dbt.duckdb from S3 and store MD5 hash as a variable
-      #   id: download_and_get_md5
-      #   run: |
-      #     original_md5=$(poetry run python scripts/load_s3_files.py download)
-      #     echo "::set-output name=md5::$original_md5"
-
-      # - name: dbt full int_expired_tickets
-      #   run: poetry run dbt build -s int_expired_tickets --full-refresh --profiles-dir .
-
-      - name: dbt build
-        run: poetry run dbt build --profiles-dir .
-
       - name: dbt source freshness
         run: poetry run dbt source freshness --profiles-dir .
 
-      # - name: Upload the dbt.duckdb to S3
-      #   run: poetry run python scripts/load_s3_files.py upload "${{ steps.download_and_get_md5.outputs.md5 }}"
-
-      # - name: Upload database to Motherduck
-      #   run: poetry run python scripts/upload_to_motherduck.py
-      #   env:
-      #     motherduck_token: ${{ secrets.MOTHERDUCK_TOKEN }}
+      - name: dbt build
+        run: poetry run dbt build --profiles-dir .
 
       - name: Setup DBT Docs to GH Pages
         uses: actions/configure-pages@v3

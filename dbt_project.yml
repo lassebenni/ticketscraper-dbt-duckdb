@@ -32,8 +32,15 @@ clean-targets:
 
 models:
   ticketscraper_dbt_duckdb:
-    example:
-      +materialized: view
+    staging:
+      +schema: staging
+
+    intermediate:
+      +materialized: ephemeral
+
+    marts:
+      +schema: marts
+      +materialized: table
 
 vars:
   data_diff:

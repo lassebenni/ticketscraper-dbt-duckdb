@@ -1,4 +1,3 @@
-{{ config(materialized="table") }}
 
 with
 listings_sold as (select * from {{ ref("stg_sold") }}

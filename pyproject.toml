@@ -6,7 +6,7 @@ authors = ["Lasse Benninga <devops.pipeline@example.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-dbt-duckdb = "^1.5.1"
+dbt-duckdb = "^1.6.2"
 s3fs = "2023.3.0"
 sqlfmt = "^0.0.2"
 sqlfluff = "^2.0.1"

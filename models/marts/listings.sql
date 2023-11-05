@@ -1,11 +1,9 @@
-{{ config(materialized="table") }}
 
 with
-listings_sold as (select * from {{ ref("stg_sold") }}),
+validated_listings as (select * from {{ ref("int_validated_listings") }}),
 
-expired_tickets as (select * from {{ ref("int_expired_tickets") }}),
 
-listings_sold_clean as (
+listings as (
     select
         ticket_id,
         description,
@@ -26,11 +24,8 @@ listings_sold_clean as (
         seller_id,
         event_entrance_id,
         updated
-    from listings_sold
-    {# where
-        and ticket_id not in (select ticket_id from expired_tickets) #}
+    from validated_listings
 )
 
 select *
-from listings_sold_clean
-order by price desc
+from listings
