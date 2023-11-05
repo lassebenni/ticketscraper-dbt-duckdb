@@ -39,7 +39,7 @@ def model(dbt, session):
         # only new rows compared to max in current table
         max_date_in_model = session.sql(f"select max(updated) from {dbt.this}")
         max_date = max_date_in_model.df().values[0][0]
-        df = df[df['updated'] >= max_date]
+        df = df[df['updated'] > max_date]
 
     # pdb.set_trace()
     checked_ids = session.sql(f"select distinct ticket_id from {dbt.this}").fetchall()
