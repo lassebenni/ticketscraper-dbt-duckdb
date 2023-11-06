@@ -47,11 +47,10 @@ def model(dbt, session):
         else:
             df = df[df['updated'] > max_date]
 
-    # only keep ticket_ids that are not already in the table
-    checked_ids = session.sql(f"select distinct ticket_id from {dbt.this}").fetchall()
-    df = df[~df["ticket_id"].isin(checked_ids)]
+            # only keep ticket_ids that are not already in the table
+            checked_ids = session.sql(f"select distinct ticket_id from {dbt.this}").fetchall()
+            df = df[~df["ticket_id"].isin(checked_ids)]
 
-    df = df.head(5)
 
     # for each row in the df check if the 'url' is expired
     df["is_expired"] = df["url"].apply(lambda x: check_expired(x))
