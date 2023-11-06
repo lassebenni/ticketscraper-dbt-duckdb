@@ -41,7 +41,7 @@ def model(dbt, session):
         max_date = max_date_in_model.df().values[0][0]
         df = df[df['updated'] > max_date]
 
-    # pdb.set_trace()
+    # only keep ticket_ids that are not already in the table
     checked_ids = session.sql(f"select distinct ticket_id from {dbt.this}").fetchall()
     df = df[~df["ticket_id"].isin(checked_ids)]
 
