@@ -1,4 +1,6 @@
 import requests
+import pdb
+import pandas as pd
 
 headers = {
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:101.0) Gecko/20100101 Firefox/101.0",
@@ -32,6 +34,7 @@ def model(dbt, session):
         materialized="incremental",
         unique_key="ticket_id",
     )
+
     rel = dbt.ref("int_suspect_listings")
     df = rel.to_df()
 
@@ -39,16 +42,21 @@ def model(dbt, session):
         # only new rows compared to max in current table
         max_date_in_model = session.sql(f"select max(updated) from {dbt.this}")
         max_date = max_date_in_model.df().values[0][0]
-        df = df[df['updated'] > max_date]
+        if pd.isna(max_date):
+            print("No max date found, returning all rows")
+        else:
+            df = df[df['updated'] > max_date]
 
     # only keep ticket_ids that are not already in the table
     checked_ids = session.sql(f"select distinct ticket_id from {dbt.this}").fetchall()
     df = df[~df["ticket_id"].isin(checked_ids)]
 
+    df = df.head(5)
+
     # for each row in the df check if the 'url' is expired
-    df["expired"] = df["url"].apply(lambda x: check_expired(x))
+    df["is_expired"] = df["url"].apply(lambda x: check_expired(x))
 
     # only return expired rows
-    df = df[df["expired"] == True]
+    df = df[df["is_expired"] == True]
 
     return df
