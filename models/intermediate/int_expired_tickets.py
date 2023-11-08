@@ -1,3 +1,4 @@
+from datetime import datetime
 import requests
 import pdb
 import pandas as pd
@@ -35,6 +36,10 @@ def check_expired(url: str) -> bool:
     # elif "<strong>sold" in response.text:
     #     return False
     else:
+        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
+        with open(f"responses/{current_time}", "w") as file:
+            file.write(response.text)
+
         # pdb.set_trace()
         print(f"Found a ticket that is not expired: {url}")
         return False
